@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html ng-app="Feedback">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Feedback</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/3.0.0/toaster.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <link href='https://fonts.googleapis.com/css?family=Aladin' rel='stylesheet'>
+       
+        <link rel="stylesheet" href="ngForm.css">
+    </head>
+    <body>
+      <header class="header">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="header__logo">
+              <a href="new.html?redirect=true"><img src="logo.png"  style="border-radius:50%"></a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="header__text">
+              <h1>Feedback Form</h1>
+            </div>
+          </div>
+        </div>
+    </header> 
+    <div ng-controller="control">
+      <div id="loader" ng-show="visible"></div>
+      <div class="container" ng-show="!visible">
+        <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+        <form class="feedback"  id="feed" name="form" novalidate ng-show="!visible">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="fname">First Name:</label>
+              <input type="text" class="form-control" placeholder="First name" id="fname" ng-model="arr.firstname" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lname">Last Name:</label>
+              <input type="text" class="form-control" placeholder="Last name" id="lname" ng-model="arr.lastname" required>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="email2">E-Mail:</label>
+            <input type="email" class="form-control" placeholder="E-Mail" id="email2" ng-model="arr.email"  required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="star">Ratings:</label>
+              <div class="rate form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rate" id="star5" value="5" ng-model="arr.ratings" required>
+                <label class="form-check-label" for="star5">5 stars</label>
+                <input class="form-check-input" type="radio" name="rate" id="star4" value="4" ng-model="arr.ratings" required>
+                <label class="form-check-label" for="star4">4 stars</label>
+                <input class="form-check-input" type="radio" name="rate" id="star3" value="3" ng-model="arr.ratings" required>
+                <label class="form-check-label" for="star3">3 stars</label>
+                <input class="form-check-input" type="radio" name="rate" id="star2" value="2" ng-model="arr.ratings" required>
+                <label class="form-check-label" for="star2">2 stars</label>
+                <input class="form-check-input" type="radio" name="rate" id="star1" value="1" ng-model="arr.ratings" required>
+                <label class="form-check-label" for="star1">1 stars</label>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="gender">Gender:</label>
+              <div class="gender form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="Male" ng-model="arr.gender" required>
+                <label class="form-check-label" for="male">Male</label>
+                <input class="form-check-input" type="radio" name="gender" id="female" value="Female" ng-model="arr.gender" required>
+                <label class="form-check-label" for="female">Female</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="feed_back">Feedback:</label>
+            <textarea id="subject"  name="subject" class="form-control" placeholder="Write something.." ng-model="arr.feedback"required></textarea>
+          </div>
+          <button class="btn btn-primary btn-lg btn-rounded" type="button" name="submit"
+                 ng-click="load()" ng-disabled="form.$invalid">{{buttonText}}</button>
+        </form>
+        <hr ng-show="!visible && data.length">
+          <div class="container-fluid" ng-show="!visible && data.length">
+            <div class="row">
+              <div class="input-group col-md-6 col-sm-6 col-xs-6">
+                <input class="search form-control py-2" type="search" placeholder="Search here..." ng-model="searchText">
+                <span class="input-group-append">
+                  <button class="btn btn-primary" type="button">
+                      <i class="fa fa-magnifying-glass" id="icon"></i>
+                  </button>
+                </span>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <input type="number" class="limit form-control" step="1" min='0' max="10" ng-model="rowLimit">
+              </div>
+            </div>
+            <div class="row Table">
+              <table class="table-responsive">
+                <thead ng-show="data.length">
+                  <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>E-Mail</th>
+                    <th>Ratings</th>
+                    <th>Gender</th>
+                    <th>Feedback</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody ng-show="load">
+                  <tr ng-repeat="data in data|filter:search|filter:paginate" ng-click="modal(data.id)" >
+                    <td data-toggle="modal" data-target="#myModal">{{data.firstname}}</td>
+                    <td data-toggle="modal" data-target="#myModal">{{data.lastname}}</td>
+                    <td data-toggle="modal" data-target="#myModal">{{data.email}}</td>
+                    <td data-toggle="modal" data-target="#myModal" ng-class="{'c1':data.ratings==='1','c2':data.ratings==='2','c3':data.ratings==='3','c4':data.ratings==='4','c5':data.ratings==='5'}">
+                        {{data.ratings}}
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" ng-if="data.gender==='Male'"><i class="fa-solid fa-person"></i></td>
+                    <td data-toggle="modal" data-target="#myModal" ng-if="data.gender==='Female'"><i class="fa-solid fa-person-dress"></i></td>
+                    <td data-toggle="modal" data-target="#myModal">{{data.feedback}}</td>
+                    <td>
+                        <button class="btn btn-danger btn-xs" type="button" data-toggle="modal" data-target="#DeleteModal" ng-click="sendId(data.id)" ><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-success btn-xs" type="button" ng-click="editRow(data.id)"><i class="fa fa-edit"></i></button>
+                    </td>                          
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+             <!-- Pagination-------------------------------------------------------------------------------------------------------------------->
+            <pagination total-items="totalItems" ng-model="currentPage"
+            max-size="2" boundary-links="true" items-per-page="rowLimit" class="pagination-sm">
+          </pagination>
+          <br><br><br>
+          <hr ng-show="data.length">
+          <!--Modal1--------------------------------------------------------------------------------------------------------------------------------------->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h2 class="modal-title" id="myModalLabel">Details</h2>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul>
+                          <li>First Name:</li>
+                          <li>Last Name:</li>
+                          <li>E-mail:</li>
+                          <li>Ratings:</li>
+                          <li>Gender:</li>
+                          <li>Feedback:</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul>
+                          <li>{{details.firstname}}</li>
+                          <li>{{details.lastname}}</li>
+                          <li>{{details.email}}</li>
+                          <li>{{details.ratings}}</li>
+                          <li>{{details.gender}}</li>
+                          <li>{{details.feedback}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                     <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+         <!-----Modal2---------------------------------------------------------------------------------------------------------------------------------->
+          <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+            <div class="modal-dialog modal-confirm">
+              <div class="modal-content">
+                <div class="modal-header flex-coloumn">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="row">
+                      <div class="del"><i class="fa fa-circle-exclamation"></i></div>
+                    </div> 
+                    <div class="row">
+                      <h2 class="modal-title" id="myModalLabel">Are You Sure?</h2>
+                    </div>
+                </div>
+                <div class="modal-body">
+                  <p>Do you really want to delete these records?
+                         This process cannot be undone.</p>     
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:black;">Cancel</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeRow()">Delete</button>            
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---Piechart-------------------------------------------------------------------------------------------------------------------------------->
+          <div class="piechart" ng-show="data.length">
+            <div class="row">
+              <div class="col-md-6">
+                <canvas id="pie" class="chart chart-pie" chart-data="rate"
+                  chart-labels="labels" chart-colors="colors" chart-options="preLegend">
+                </canvas>              
+              </div>
+              <div class="col-md-6">
+                <ul class="legend">
+                  <li>
+                   <div class="box1"></div><span class="label"> 1star</span>
+                  </li>
+                  <li>
+                    <div class="box2"></div><span class="label">2star</span>
+                  </li>
+                  <li>
+                    <div class="box3"></div><span class="label">3star</span>
+                  </li>
+                  <li>
+                    <div class="box4"></div><span class="label">4star</span>
+                  </li>
+                  <li>
+                    <div class="box5"></div><span class="label">5star</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>    
+        </div>
+      </div>
+      <br><br><br>
+        <footer class="footer" ng-show="!visible">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="footer__text">          
+                    <div class="footer__social">
+                    <a href="#" style="color:white;"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" style="color:white;"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" style="color:white;"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" style="color:white;"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" style="color:white;"><i class="fa-solid fa-envelope-open"></i></a>
+                    </div>
+                  </div>
+                  <div class="footer__copyright">
+                    <p>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>   
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.0.2/angular-chart.min.js"></script>
+        <script src="http://code.angularjs.org/1.2.16/angular-resource.js"></script>
+        <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+        <script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/3.0.0/toaster.min.js"></script>
+       <script src="ngForm.js"></script> 
+    </body>
+</html

@@ -1,0 +1,248 @@
+/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+ body {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    /* width: 100vh; *
+    height: 100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+} */
+body{
+  overflow-x: hidden;
+  background-image: linear-gradient(45deg,#50c5ab 0%,#d8d8d8 35%,#6af5c2e3 66%,#d8d8d8 100%);
+    animation: glow 9s linear infinite;
+}
+header {
+    background-color:#333333e0; 
+    padding: 7px;
+    
+} 
+.header__text h1{
+  margin: 19px;
+  margin-left: 15%;
+  font-family: 'Titan One', cursive;
+  font-weight: 400;
+  font-size: 3rem;
+  text-shadow: 3px 3px 3px black;
+}
+@media screen and (min-width:360px) and (max-width:760px){
+  .header__text h1{
+    font-size: 2rem;
+  }  
+}
+
+.header__logo img{
+    border-radius: 50%;
+}
+.header__btn{
+  color: white;
+  position: absolute;
+  margin-top: 1%;
+  right: 5%;
+  font-size: 1.8rem;
+}
+.container{
+  /* border: 1px solid black; */
+  border-radius: 20px;
+  padding: 15px;
+  padding-right: 126px;
+  padding-left: 4px;
+  background-color:#3333334d;
+  color: whitesmoke;
+  font-size: 16px;
+  font-weight: bold;
+  /* min-width: fit-content; */
+}
+
+.flip-card {
+    background-color: transparent;
+    /* width: 215px; */
+    height: 235px;
+    perspective: 1000px;
+    padding-bottom: 9%;
+    padding-top: 9%;
+    /* padding-left: 15px; */
+}
+.flip-card-inner p{
+    text-align:center;
+    margin-top: 32%;
+    font-weight: 900;
+    font-size: 2rem;
+    font-family: 'Joti One';
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 #1d2124;
+    border-radius: 5%;
+  }
+  /* .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  } */
+  .flip-card .flipped {
+    transform: rotateY(180deg);
+  }
+  .flip-card-front1, .flip-card-front2, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 5%;
+  }
+  .flip-card-front1{
+    background-color:#5AD5D2;
+    color: #F8C806;
+    text-shadow: 3px 3px 3px #333;
+  }
+ .flip-card-front2{
+    color:#5AD5D2;
+    background-color: #F8C806;
+    text-shadow: 3px 3px 3px #333;
+ }
+ .flip-card-back {
+    background-color:white;
+    color: black;
+    transform: rotateY(180deg);
+  }
+  @media screen and (min-width:360px)and (max-width:760px) {
+    .flip-card{
+      height: 130px;
+    }
+    .flip-card-inner p{
+      text-align:center;
+      margin-top: 32%;
+      font-weight: 900;
+      font-size: 1.8rem;
+      font-family: 'Joti One';
+  }
+  }
+  @media screen and (min-width:914px)and (max-width:920px) {
+    .flip-card{
+      height: 130px;
+    }
+    .flip-card-inner p{
+      text-align:center;
+      margin-top: 32%;
+      font-weight: 900;
+      font-size: 1.8rem;
+      font-family: 'Joti One';
+  }
+  }
+
+  .footer{
+    background-color:#333333e0;
+    width:auto;
+    padding:10px;
+  }
+  .footer__text {
+  padding: 0px 0;
+  text-align: center;
+  color:black;
+  }
+  .footer__copyright{
+    text-align: center;
+    color:white;
+  }
+  #myModal .modal-dialog{
+    margin: 17.75rem auto;
+    
+  }
+  #myModal .modal-header{
+    border-bottom: 0px;
+  }
+  #myModal .modal-footer{
+    border-top: 0px;
+
+  }
+  #myModal .modal-content{
+    background-image: url("Coupon.jpg");
+    width:111%;
+  } 
+  #myModal .modal-header h2.modal-title{
+    text-align: center;
+    font-weight: bolder;
+    color:black;
+  }
+  #myModal .modal-header .close{
+    /* background-color: #dc3545;
+    border-radius: 50%; */
+    color:black;
+    opacity: 1;
+  }
+  #myModal .modal-header .close:hover{
+    color:red;
+    opacity: 1;
+  }
+  #myModal .modal-body {
+    color:black;
+    text-align: center;
+    font-weight: bolder;
+  }
+  #GameOver .modal-dialog{
+    margin: 17.75rem auto;
+    
+  }
+  #GameOver .modal-content{
+    background-color: black;
+  }
+  #GameOver .container-modal{
+    width:95%;
+   background-color: black;
+   border-radius: 0rem;
+   border:3px solid;
+   border-top-color:#5AD5D2;
+   border-right-color: #5AD5D2;
+   border-bottom-color: #F8C806;
+   border-left-color: #F8C806;
+   margin-top: 2%;
+   /* animation: glow 9s linear infinite; */
+  }
+  #GameOver .modal-body h1{
+    color:black;
+    text-align: center;
+    font-weight: 900;
+    font-size: 5rem;
+  }
+  #GameOver .modal-header .close{
+    color:white;
+    opacity: 1;
+    padding: 1rem 6px;
+    margin: -2rem -1rem -1rem auto;
+  }
+  #GameOver .modal-header{
+    border-bottom: 0px;
+    padding: 0rem 0rem;
+  }
+  #GameOver .modal-footer{
+    border-top: 0px;
+  }
+  #Rules .modal-content{
+    border: 75px solid transparent;
+    padding: 15px;
+    border-image: url("rules.jpg") 70 round;
+    color:black;
+  }
+  #Rules .modal-footer{
+    border-top:0px;
+  }
+   @media only screen and (min-width:360px) and (max-width:1100px){
+    #GameOver .modal-dialog{
+      margin: 0.75rem auto;
+      
+    }
+    #myModal .modal-dialog{
+      margin: 0.75rem auto;
+      
+    }
+   }
+  
+
+ 
