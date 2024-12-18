@@ -81,7 +81,7 @@ var card = angular .module("game",['toaster','ngAnimate'])
                     // }                      
                    
                     $scope.goHome=function(){
-                      $window.open("../new.html?redirect=true&id=1","_self");
+                      $window.open("../index.html?redirect=true&id=1","_self");
                     }
                     
                 var selectedCard=null, WAIT = false,tries=0;
@@ -110,7 +110,7 @@ var card = angular .module("game",['toaster','ngAnimate'])
                     });
                       card.isFlipped =false;
                       $('#GameOver').on('hide.bs.modal', function () {
-                        window.location.href = "../new.html?redirect=true&id=2";
+                        window.location.href = "../index.html?redirect=true&id=2";
                       });
                     }
                   }

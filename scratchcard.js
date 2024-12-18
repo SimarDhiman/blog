@@ -51,10 +51,10 @@ var app = angular .module("Food",['ngAnimate','toaster','ngCookies'])
 
                 };
                   $scope.mobile=function(){
-                    view= $window.open("../recipes.html","_self"); 
+                    view= $window.open("recipes.html","_self"); 
                   }
                   $scope.Recipe=function(){
-                    $window.open("../recipes.html","_self");                    
+                    $window.open("recipes.html","_self");                    
                   };
                     (function() {
   
